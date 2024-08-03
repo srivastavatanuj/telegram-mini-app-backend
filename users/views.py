@@ -1,13 +1,36 @@
 from django.shortcuts import render
 from rest_framework import generics,permissions
+from rest_framework.views import APIView
 from .models import *
 from .serializers import *
+from rest_framework.response import Response
+from rest_framework import status
 
 # Create your views here.
-class CreateUser(generics.CreateAPIView):
-    queryset=User.objects.all()
+class GetOrCreateUser(APIView):
+    def post(self,request):
+        userid=request.data.get('userid')
+        username=request.data.get('username')
+
+        user=User.objects.filter(userid=userid).first()
+
+        if user:
+            serializer=UserSerializer(user)
+            return Response(serializer.data,status=status.HTTP_200_OK)
+
+        user=User.objects.create(userid=userid,username=username)
+        serializer=UserSerializer(user)
+        return Response(serializer.data,status=status.HTTP_201_CREATED)
+
+class UserLeaderboard(generics.ListAPIView):
+    
     serializer_class=UserSerializer
     permission_classes=[permissions.AllowAny]
+
+    def get_queryset(self):
+        queryset=User.objects.all().order_by("-totalScore")
+        return queryset
+
 
 class UpdateUser(generics.UpdateAPIView):
     queryset=User.objects.all()
@@ -15,12 +38,4 @@ class UpdateUser(generics.UpdateAPIView):
     permission_classes=[permissions.AllowAny]
 
 
-class CreateListTask(generics.ListCreateAPIView):
-    queryset=Task.objects.all()
-    serializer_class=TaskSerializer
-    permission_classes=[permissions.AllowAny]
 
-class ListUpdateTask(generics.RetrieveUpdateDestroyAPIView):
-    queryset=Task.objects.all()
-    serializer_class=TaskSerializer
-    permission_classes=[permissions.AllowAny]
