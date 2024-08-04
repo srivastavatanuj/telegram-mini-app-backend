@@ -43,7 +43,8 @@ EXTERNAL_APPS=[
     'tasks',
     'users',
     'rest_framework',
-    'corsheaders'
+    'corsheaders',
+    'invites'
 ]
 
 INSTALLED_APPS+=EXTERNAL_APPS
