@@ -17,7 +17,8 @@ Including another URLconf
 from asyncio import tasks
 from django.contrib import admin
 from django.urls import include, path
-
+from django.conf import settings
+from django.conf.urls.static import static
 
 
 urlpatterns = [
@@ -25,4 +26,4 @@ urlpatterns = [
     path("api/v1/user/",include("users.urls")),
     path("api/v1/task/",include("tasks.urls")),
     path('api/v1/invites/',include('invites.urls'))
-]
+]+ static(settings.MEDIA_URL, document_root=settings.MEDIA_ROOT)
