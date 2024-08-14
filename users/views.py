@@ -17,20 +17,24 @@ class GetOrCreateUser(APIView):
         referby=request.data.get('referBy')
 
         user=User.objects.filter(userid=userid).first()
+        showStreak=True
 
         if user:
             if (date.today() - user.lastlogin).days==0:
+                showStreak=False
                 pass
             elif (date.today() - user.lastlogin).days==1:
                 user.streak+=1
                 user.totalScore+=user.streak*10
             else:
-                user.streak=0
+                user.streak=1
 
             user.lastlogin=date.today()
             user.save()
             serializer=UserSerializer(user)
-            return Response(serializer.data,status=status.HTTP_200_OK)
+            newData=serializer.data
+            newData['showStreak']=showStreak # type: ignore
+            return Response(newData,status=status.HTTP_200_OK)
         
         if(referby):
             Invites.objects.create(fromUser=referby,toUser=username)

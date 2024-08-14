@@ -12,9 +12,11 @@ class Task(models.Model):
     points=models.PositiveIntegerField(default=0)
     icon=models.ImageField(upload_to='icons',blank=True)
 
+    def __str__(self):
+        return self.name
 
 
-class TaskEntry(models.Model):
+class TaskProgress(models.Model):
     task=models.ForeignKey(Task,on_delete=models.CASCADE)
     user=models.ForeignKey(User,on_delete=models.CASCADE)
     completed=models.BooleanField(default=False)

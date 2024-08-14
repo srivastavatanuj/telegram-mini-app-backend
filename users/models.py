@@ -1,5 +1,5 @@
 from django.db import models
-
+from datetime import datetime
 
 # Create your models here.
 class User(models.Model):
@@ -8,6 +8,8 @@ class User(models.Model):
     wallet=models.CharField(blank=True,max_length=150)
     dateTime=models.DateField(auto_now_add=True)
     totalScore=models.PositiveIntegerField(default=0)
-    lastlogin=models.DateField(auto_now_add=True)
+    lastlogin=models.DateField(default=datetime.now)
     streak=models.IntegerField(default=0)
 
+    def __str__(self):
+        return self.username
