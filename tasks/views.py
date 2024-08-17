@@ -38,50 +38,55 @@ class startTask(views.APIView):
         user=User.objects.get(userid=userid)
 
 
-        if taskid == "1":         # joining bonus
-            task=TaskProgress.objects.create(task=taskName,user=user,completed=True)
 
-        elif taskid == "2":       # invite 1 friend
-            if len(Invites.objects.filter(FromUser=userid))>1:
-                task=TaskProgress.objects.create(task=taskName,user=user,completed=True)
-            else:
-                task=TaskProgress.objects.create(task=taskName,user=user)
+        if taskid == 4:         # joining bonus
+            task=TaskProgress.objects.get_or_create(task=taskName,user=user,completed=True)[0]
+            user.totalScore+=taskName.points
 
-        elif taskid == "3":       # invite 5 friend
-            if len(Invites.objects.filter(FromUser=userid))>=5:
-                task=TaskProgress.objects.create(task=taskName,user=user,completed=True)
-            else:
-                task=TaskProgress.objects.create(task=taskName,user=user)
+        elif taskid == 1:       # invite 1 friend
+            task=TaskProgress.objects.get_or_create(task=taskName,user=user)[0]
+            if len(Invites.objects.filter(fromUser=userid))>1:
+                user.totalScore+=taskName.points
+                task.completed=True
+                task.save()
 
-        elif taskid == "4":       # maintain 5 day streak
+        elif taskid == 5:       # invite 5 friend
+            task=TaskProgress.objects.get_or_create(task=taskName,user=user)[0]
+            if len(Invites.objects.filter(fromUser=userid))>=5:
+                user.totalScore+=taskName.points
+                task.completed=True
+                task.save()
+
+        elif taskid == 6:       # maintain 5 day streak
+            task=TaskProgress.objects.get_or_create(task=taskName,user=user)[0]
             if user.streak>=5:
-                task=TaskProgress.objects.create(task=taskName,user=user,completed=True)
-            else:
-                task=TaskProgress.objects.create(task=taskName,user=user)
+                user.totalScore+=taskName.points
+                task.completed=True
+                task.save()
 
-        elif taskid == "5":
-            task=TaskProgress.objects.create(task=taskName,user=user,completed=True)
+        elif taskid == 2:
+            task=TaskProgress.objects.get_or_create(task=taskName,user=user)[0]
 
-        elif taskid == "6":
-            task=TaskProgress.objects.create(task=taskName,user=user,completed=True)
 
-        elif taskid == "7":
-            task=TaskProgress.objects.create(task=taskName,user=user,completed=True)
+        elif taskid == 3:
+            task=TaskProgress.objects.get_or_create(task=taskName,user=user,completed=True)[0]
 
-        elif taskid == "8":
-            task=TaskProgress.objects.create(task=taskName,user=user,completed=True)
+        elif taskid == 7:
+            task=TaskProgress.objects.get_or_create(task=taskName,user=user,completed=True)[0]
 
-        elif taskid == "9":
-            task=TaskProgress.objects.create(task=taskName,user=user,completed=True)
+        elif taskid == 8:
+            task=TaskProgress.objects.get_or_create(task=taskName,user=user,completed=True)[0]
+
+        elif taskid == 9:
+            task=TaskProgress.objects.get_or_create(task=taskName,user=user,completed=True)[0]
 
         elif taskid == "10":
-            task=TaskProgress.objects.create(task=taskName,user=user,completed=True)
+            task=TaskProgress.objects.get_or_create(task=taskName,user=user,completed=True)[0]
 
         else:
-            task=TaskProgress.objects.create(task=taskName,user=user)
+            task=TaskProgress.objects.get_or_create(task=taskName,user=user)[0]
 
 
-        user.totalScore+=taskName.points
         user.save()
         serializer=TaskProgressSerializer(task)
 
