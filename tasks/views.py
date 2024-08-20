@@ -29,6 +29,12 @@ class ListUpdateTask(generics.RetrieveUpdateDestroyAPIView):
     serializer_class=TaskSerializer
     permission_classes=[permissions.AllowAny]
 
+
+class ListAllTask(generics.ListAPIView):
+    queryset=Task.objects.all()
+    serializer_class=TaskSerializer
+    permission_classes=[permissions.AllowAny]
+
 class startTask(views.APIView):
     serializer_class=TaskProgressSerializer
 
@@ -63,7 +69,7 @@ class startTask(views.APIView):
                 task.completed=True
                 task.save()
 
-        elif taskid == 2:  # telegram add
+        elif taskid == 2:  # telegram verify
             ############# METHOD DATA ################
             token="7339703220:AAG_15jrVsq7cTE6MU_2pd9O0s9v1pSGvKs"
             group_id="-4529992520"
@@ -73,13 +79,15 @@ class startTask(views.APIView):
             task,created=TaskProgress.objects.get_or_create(task=taskName,user=user)
             serializer=TaskProgressSerializer(task)
             newData=serializer.data
-            print(task,created,userid)
+        
 
             res=requests.get(url,params)
 
             if (res.json()['result']['status']=="member" or res.json()['result']['status']=="creator"):
                 task.completed=True
                 task.save()
+                user.totalScore+=taskName.points
+                user.save()
                 serializer=TaskProgressSerializer(task)
                 newData=serializer.data
             else:
@@ -88,8 +96,12 @@ class startTask(views.APIView):
             
 
 
-        elif taskid == 3:
+        elif taskid == 3: # twitter page
             task=TaskProgress.objects.get_or_create(task=taskName,user=user,completed=True)[0]
+            serializer=TaskProgressSerializer(task)
+            newData=serializer.data
+            newData['link']="https://x.com/RapidRushXYZ"
+            return response.Response(newData,status=status.HTTP_201_CREATED)
 
         elif taskid == 7:
             task=TaskProgress.objects.get_or_create(task=taskName,user=user,completed=True)[0]
