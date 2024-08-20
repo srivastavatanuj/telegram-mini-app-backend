@@ -1,4 +1,5 @@
 from django.shortcuts import render
+import requests
 from rest_framework import generics,permissions,views,response,status
 from rest_framework.response import Response
 from users.models import User
@@ -37,8 +38,6 @@ class startTask(views.APIView):
         taskName=Task.objects.get(id=taskid)
         user=User.objects.get(userid=userid)
 
-
-
         if taskid == 4:         # joining bonus
             task=TaskProgress.objects.get_or_create(task=taskName,user=user,completed=True)[0]
             user.totalScore+=taskName.points
@@ -64,8 +63,27 @@ class startTask(views.APIView):
                 task.completed=True
                 task.save()
 
-        elif taskid == 2:
-            task=TaskProgress.objects.get_or_create(task=taskName,user=user)[0]
+        elif taskid == 2:  # telegram add
+            ############# METHOD DATA ################
+            token="7339703220:AAG_15jrVsq7cTE6MU_2pd9O0s9v1pSGvKs"
+            group_id="-4529992520"
+            params={"chat_id":group_id,"user_id":userid}
+            url=f"https://api.telegram.org/bot{token}/getChatMember"
+            
+            task,created=TaskProgress.objects.get_or_create(task=taskName,user=user)
+            serializer=TaskProgressSerializer(task)
+            newData=serializer.data
+            print(task,created,userid)
+
+            res=requests.get(url,params)
+
+            if (res.json()['result']['status']=="member"):
+                task.completed=True
+                task.save()
+            else:
+                newData['links']="https://t.me/+ql3eKHqtO5IwOWM1"
+            return response.Response(newData,status=status.HTTP_201_CREATED)
+            
 
 
         elif taskid == 3:
