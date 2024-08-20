@@ -81,7 +81,7 @@ class startTask(views.APIView):
                 task.completed=True
                 task.save()
             else:
-                newData['links']="https://t.me/+ql3eKHqtO5IwOWM1"
+                newData['link']="https://t.me/+ql3eKHqtO5IwOWM1"
             return response.Response(newData,status=status.HTTP_201_CREATED)
             
 
