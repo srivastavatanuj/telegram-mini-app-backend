@@ -77,9 +77,11 @@ class startTask(views.APIView):
 
             res=requests.get(url,params)
 
-            if (res.json()['result']['status']=="member"):
+            if (res.json()['result']['status']=="member" or res.json()['result']['status']=="creator"):
                 task.completed=True
                 task.save()
+                serializer=TaskProgressSerializer(task)
+                newData=serializer.data
             else:
                 newData['link']="https://t.me/+ql3eKHqtO5IwOWM1"
             return response.Response(newData,status=status.HTTP_201_CREATED)
