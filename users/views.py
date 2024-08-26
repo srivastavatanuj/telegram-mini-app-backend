@@ -59,9 +59,11 @@ class UserLeaderboard(generics.ListAPIView):
         queryset=self.get_queryset()
         serializer = self.get_serializer(queryset,many=True)
         userid=kwargs['userid']
-        rank=list(queryset).index(queryset.get(userid=userid))+1
-
-        data={'data':serializer.data,"rank":rank}
+        try:
+            rank=list(queryset).index(queryset.get(userid=userid))+1
+            data={'data':serializer.data,"rank":rank}
+        except:
+            data={'data':serializer.data}
         return Response(data, status=status.HTTP_200_OK)
 
 
