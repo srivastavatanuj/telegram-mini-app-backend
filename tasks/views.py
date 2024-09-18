@@ -5,7 +5,7 @@ from rest_framework.response import Response
 from users.models import User
 from invites.models import Invites
 from .models import Task,TaskProgress
-from .serializers import TaskSerializer,TaskProgressSerializer
+from .serializers import TaskSerializer,TaskProgressSerializer,GamePointsSerializer
 
 
 # Create your views here.
@@ -123,3 +123,21 @@ class startTask(views.APIView):
         serializer=TaskProgressSerializer(task)
 
         return response.Response(serializer.data,status=status.HTTP_201_CREATED)
+
+class gameTask(generics.UpdateAPIView):
+    queryset=User.objects.all()
+    serializer_class=GamePointsSerializer
+    permission_classes=[permissions.AllowAny]
+
+    def update(self, request, *args, **kwargs):
+        userid=request.data['userid']
+        score=request.data['totalScore']
+
+        try:
+            user=User.objects.get(userid=int(userid))
+            user.totalScore+=int(score)
+           
+        except:
+            return response.Response({'error':"invalid user id"})
+        user.save()
+        return response.Response({"success":"points updated"})

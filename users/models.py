@@ -10,6 +10,8 @@ class User(models.Model):
     totalScore=models.PositiveIntegerField(default=0)
     lastlogin=models.DateField(default=date.today)
     streak=models.IntegerField(default=0)
+    claimable=models.IntegerField(default=0)
+    withdrawRequest=models.BooleanField(default=False)
 
     def __str__(self):
         return self.username

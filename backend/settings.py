@@ -25,7 +25,7 @@ SECRET_KEY = 'django-insecure-vlp-!oe-59&3p=fnv+is-_s-)7y6h(nke(($#uodn5+=*x!6-+
 # SECURITY WARNING: don't run with debug turned on in production!
 DEBUG = True
 
-ALLOWED_HOSTS = []
+ALLOWED_HOSTS = ['*']
 
 
 # Application definition
@@ -85,24 +85,24 @@ WSGI_APPLICATION = 'backend.wsgi.application'
 # Database
 # https://docs.djangoproject.com/en/5.0/ref/settings/#databases
 
-# DATABASES = {
-#     'default': {
-#         'ENGINE': 'django.db.backends.sqlite3',
-#         'NAME': BASE_DIR / 'db.sqlite3',
-#     }
-# }
-
-
 DATABASES = {
     'default': {
-        'ENGINE': 'django.db.backends.mysql',
-        'NAME': 'django_test_db',
-        'USER': 'test',
-        'PASSWORD': 'mysql',
-        'HOST': 'localhost',
-        'POST': '3306',
+        'ENGINE': 'django.db.backends.sqlite3',
+        'NAME': BASE_DIR / 'db.sqlite3',
     }
 }
+
+
+# DATABASES = {
+#     'default': {
+#         'ENGINE': 'django.db.backends.mysql',
+#         'NAME': 'django_test_db',
+#         'USER': 'test',
+#         'PASSWORD': 'mysql',
+#         'HOST': 'localhost',
+#         'POST': '3306',
+#     }
+# }
 
 
 
