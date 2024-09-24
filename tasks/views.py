@@ -5,7 +5,7 @@ from rest_framework.response import Response
 from users.models import User
 from .models import Task, TaskProgress
 from invites.models import Invites
-from .serializers import TaskSerializer, TaskProgressSerializer
+from .serializers import TaskSerializer, TaskProgressSerializer, GamePointsSerializer
 
 # Create your views here.
 class ListTask(generics.ListAPIView):
