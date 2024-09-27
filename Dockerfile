@@ -15,7 +15,7 @@ COPY . .
 
 # Set environment variables
 ENV DJANGO_SETTINGS_MODULE=backend.settings
-ENV PYTHONUNBUFFERED=1  # Ensures logs are immediately flushed (helpful for Docker)
+ENV PYTHONUNBUFFERED=1  # This is the correct way to ensure logs are immediately flushed
 
 # Expose the port the app runs on
 EXPOSE 8000
