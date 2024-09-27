@@ -124,7 +124,7 @@ CORS_ALLOWED_ORIGINS = [
     "http://mini.rapidrush.xyz",
     "http://xrr-mini-app-backend-env.eba-mpw63w2k.ap-south-1.elasticbeanstalk.com",
     "http://localhost:3000",  # Add localhost for development
-    
+    "http://127.0.0.1:3000",
 ]
 
 
