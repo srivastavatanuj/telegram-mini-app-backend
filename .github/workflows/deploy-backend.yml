@@ -62,3 +62,7 @@ jobs:
       if: env.exists == 'true'
       run: |
         eb deploy xrr-mini-app-backend-env
+
+    - name: Run Django Migrations
+      run: |
+        eb ssh xrr-mini-app-backend-env --command "docker exec -it \$(docker ps -q) python manage.py migrate"
