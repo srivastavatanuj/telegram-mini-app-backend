@@ -19,6 +19,7 @@ ALLOWED_HOSTS = [
     'xrr-mini-app-backend-env.eba-mpw63w2k.ap-south-1.elasticbeanstalk.com',
     'mini.rapidrush.xyz',
     'localhost',
+    '127.0.0.1',
     ]
 
 
