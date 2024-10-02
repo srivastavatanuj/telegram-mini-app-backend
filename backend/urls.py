@@ -24,10 +24,15 @@ from django.conf.urls.static import static
 def root_view(request):
     return HttpResponse("Welcome to the API. Use /api/v1/user/ or /api/v1/task/ or /api/v1/invites/.")
 
+# Health check view for Elastic Beanstalk health check
+def health_check(request):
+    return HttpResponse("OK", status=200)
+
 urlpatterns = [
     path('admin/', admin.site.urls),
     path('api/v1/user/', include('users.urls')),
     path('api/v1/task/', include('tasks.urls')),
     path('api/v1/invites/', include('invites.urls')),
     path('', root_view),  # Add this line to handle the root URL
+    path('health/', health_check),  # Health check URL for Elastic Beanstalk
 ]+ static(settings.MEDIA_URL, document_root=settings.MEDIA_ROOT)
