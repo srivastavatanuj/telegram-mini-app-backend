@@ -20,6 +20,8 @@ ALLOWED_HOSTS = [
     'mini.rapidrush.xyz',
     'localhost',
     '127.0.0.1',
+    '13.127.11.238',  # ELB IP
+    '172.31.45.12'    # Instance IP
     ]
 
 
@@ -122,7 +124,7 @@ CORS_ALLOW_CREDENTIALS = True
 CORS_ALLOWED_ORIGINS = [
     "https://mini.rapidrush.xyz",
     "http://mini.rapidrush.xyz",
-    "http://xrr-mini-app-backend-env.eba-mpw63w2k.ap-south-1.elasticbeanstalk.com",
+    "https://xrr-mini-app-backend-env.eba-mpw63w2k.ap-south-1.elasticbeanstalk.com",
     "http://localhost:3000",  # Add localhost for development
     "http://127.0.0.1:3000",
 ]
