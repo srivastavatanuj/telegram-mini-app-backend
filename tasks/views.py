@@ -108,24 +108,88 @@ class startTask(views.APIView):
                 task.completed = True
                 task.save()
 
-        elif taskid == 6:  # maintain 5 day streak
+        elif taskid == 6: # twitter page
+            # Get or create the task progress record
+            task, created = TaskProgress.objects.get_or_create(task=taskName, user=user)
+            serializer = TaskProgressSerializer(task)
+            newData = serializer.data
+
+            # If the task is just being started (first click)
+            if not task.completed and created:
+                # Provide the Twitter link
+                newData['link'] = "https://x.com/Aarthi_HB"
+            elif not task.completed and not created:
+                # If the task was already started and the user is returning to claim the points
+                user.totalScore += taskName.points
+                user.save()
+                task.completed = True
+                task.save()
+
+            return response.Response(newData, status=status.HTTP_201_CREATED)
+            
+        elif taskid == 7: # twitter page
+            # Get or create the task progress record
+            task, created = TaskProgress.objects.get_or_create(task=taskName, user=user)
+            serializer = TaskProgressSerializer(task)
+            newData = serializer.data
+
+            # If the task is just being started (first click)
+            if not task.completed and created:
+                # Provide the Twitter link
+                newData['link'] = "https://x.com/muthu_369"
+            elif not task.completed and not created:
+                # If the task was already started and the user is returning to claim the points
+                user.totalScore += taskName.points
+                user.save()
+                task.completed = True
+                task.save()
+
+            return response.Response(newData, status=status.HTTP_201_CREATED)
+
+        elif taskid == 8: # twitter page
+            # Get or create the task progress record
+            task, created = TaskProgress.objects.get_or_create(task=taskName, user=user)
+            serializer = TaskProgressSerializer(task)
+            newData = serializer.data
+
+            # If the task is just being started (first click)
+            if not task.completed and created:
+                # Provide the Twitter link
+                newData['link'] = "https://x.com/YellowWhaleLabs"
+            elif not task.completed and not created:
+                # If the task was already started and the user is returning to claim the points
+                user.totalScore += taskName.points
+                user.save()
+                task.completed = True
+                task.save()
+
+            return response.Response(newData, status=status.HTTP_201_CREATED)
+
+        elif taskid == 9: # linkedin
+            # Get or create the task progress record
+            task, created = TaskProgress.objects.get_or_create(task=taskName, user=user)
+            serializer = TaskProgressSerializer(task)
+            newData = serializer.data
+
+            # If the task is just being started (first click)
+            if not task.completed and created:
+                # Provide the Twitter link
+                newData['link'] = "https://www.linkedin.com/company/yellowwhale"
+            elif not task.completed and not created:
+                # If the task was already started and the user is returning to claim the points
+                user.totalScore += taskName.points
+                user.save()
+                task.completed = True
+                task.save()
+
+            return response.Response(newData, status=status.HTTP_201_CREATED)
+
+        elif taskid == 10:  # maintain 5 day streak
             task = TaskProgress.objects.get_or_create(task=taskName, user=user)[0]
             if user.streak >= 5:
                 user.totalScore += taskName.points
                 task.completed = True
                 task.save()
-
-        elif taskid == 7:
-            task = TaskProgress.objects.get_or_create(task=taskName, user=user, completed=True)[0]
-
-        elif taskid == 8:
-            task = TaskProgress.objects.get_or_create(task=taskName, user=user, completed=True)[0]
-
-        elif taskid == 9:
-            task = TaskProgress.objects.get_or_create(task=taskName, user=user, completed=True)[0]
-
-        elif taskid == "10":
-            task = TaskProgress.objects.get_or_create(task=taskName, user=user, completed=True)[0]
 
         else:
             task = TaskProgress.objects.get_or_create(task=taskName, user=user)[0]
