@@ -7,6 +7,8 @@ from .serializers import UserSerializer
 from invites.models import Invites
 from rest_framework.response import Response
 from rest_framework import status
+from django.db.models import Sum
+
 
 # Create your views here.
 class GetOrCreateUser(APIView):
@@ -64,7 +66,8 @@ class UserLeaderboard(generics.ListAPIView):
         userid = kwargs.get('userid', None)
         try:
             rank = list(queryset).index(queryset.get(userid=userid)) + 1
-            data = {'data': serializer.data, "rank": rank}
+            allPoints=User.objects.aggregate(totalScore=Sum('totalScore'))
+            data = {'data': serializer.data, "rank": rank,"totalScore":allPoints['totalScore']}
         except User.DoesNotExist:
             data = {'data': serializer.data}
         return Response(data, status=status.HTTP_200_OK)
